@@ -12,7 +12,7 @@ function Info(){
            <div className="center-information">
            <h1>{name}</h1>
            <h2>
-            developer:{developer} 
+            Developer:{developer} 
             </h2>
            <h2>
             Name:{name}
@@ -20,7 +20,7 @@ function Info(){
             <h2>
             Price:{price}
             </h2>
-           <h2>Description</h2>
+           <h2>Description:{description}</h2>
            </div>
            <img  className="image-info"  src="./src/assets/paint.jpg" alt=""></img>
         </div>
