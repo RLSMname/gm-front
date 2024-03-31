@@ -4,13 +4,47 @@ import Popup from "reactjs-popup"
 import FormElement from "../forms/FormElement";
 import { Link } from "react-router-dom";
 function Home(props){
-    const [list,setList]=useState(props.itemList);
+    const list=props.itemList;
+    const setList=props.setList;
+    const [on,setOn]=useState(true);
 
-    function handleSort(ascending){
-        const sortedList = list.sort(function(a, b){return (a.price - b.price)*ascending});
-        setList([...sortedList])
+    function LoadMoreButton() {
+        return <button onClick={handleLoadMore}>More</button>
     }
 
+    function handleSort(ascending){
+        fetch(`http://localhost:5000/sort?sortValue=${ascending}`, {
+            method: "GET",
+            headers: {
+            "Content-type": "application/json; charset=UTF-8"
+                     }
+          }).then((response)=> response.json()).
+                  then(
+                      (data)=>{
+                                  setList(data);
+                              }
+             
+                      )
+        }
+
+
+        function handleLoadMore(){
+       
+            fetch(
+                  "http://localhost:5000/pages",{
+                    method: "GET",
+                    headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                             }
+                  }
+                ).then((response)=>{
+                  return response.json()
+                }).then(data=>{if(Array.isArray(data))
+                  setList(data);
+                  else setOn(false); 
+                }
+             );
+        }
     return (
         <>
         <Popup 
@@ -45,7 +79,8 @@ function Home(props){
                 <Link to={{pathname: `/games/piechart`}} state={{ itemList: list  }}><button >View Piechart</button></Link>
             </div>
          <Repo itemList={list} setList={setList} >
-        </Repo>
+         </Repo>
+         <LoadMoreButton></LoadMoreButton>
         </>
     )  
 }

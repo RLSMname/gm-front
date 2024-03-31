@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import MyComponent from "../MyComponent";
-import { useState } from "react";
 import Popup from "reactjs-popup";
 import FormElementEdit from "../forms/FormElementEdit";
 
@@ -8,12 +7,26 @@ function Repo(props){
     const stateList=props.itemList;
     const setList=props.setList;
     function handleDelete(index){
-     
-        console.log(1);
-        console.log("Deleting index:", index);
-        console.log("Before:",stateList);
-        setList(stateList.filter((_, i) => i !== index)); 
-        console.log("After:",stateList);
+
+        let id=stateList[index].id;
+        fetch("http://localhost:5000/delete", {
+            method: "DELETE",
+            body: JSON.stringify({
+            id: stateList[index].id,
+                    }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        }).then((resp)=>
+            {
+                if (resp.ok) {
+                    
+                    setList(prevList => prevList.filter((element, _) => element.id !==id));
+                    
+                }
+
+            }
+        );
 
     }
 
@@ -22,6 +35,19 @@ function Repo(props){
         const updatedList=[...stateList];
         updatedList[index]=updatedItem;
         setList(updatedList);
+        fetch("http://localhost:5000/update", {
+          method: "PATCH",
+          body: JSON.stringify({
+          id: updatedItem.id,
+          name: updatedItem.name,
+          developer:updatedItem.developer,
+          price: updatedItem.price,
+          description:updatedItem.description
+          }),
+          headers: {
+          "Content-type": "application/json; charset=UTF-8"
+                   }
+        });
     }
 
     
@@ -31,7 +57,7 @@ function Repo(props){
                       <div key={index} className="component-container">
                         <MyComponent  item={element}></MyComponent>
                         <span className="span-button">
-                            <Link to={{pathname: `/${element.id}`}} state={{ item: element  }}><button >View</button></Link>
+                            <Link to={{pathname: `/${element.id}`}} state={{ id: element.id  }}><button >View</button></Link>
                             <button onClick={()=>handleDelete(index)}>Delete</button>
                             
                             <Popup 

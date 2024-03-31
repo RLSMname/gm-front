@@ -4,20 +4,24 @@ function FormElement(props){
       let itemList=props.itemList;
       const setList=props.setList;
       const {register,handleSubmit,formState: { errors },reset} = useForm();
-      let counter=4;
       const [data,setData]=useState("");
-      const onSubmit=(data,e) => {       
-        counter=counter+1;
+      const onSubmit=(data) => {       
         setData(data);
         console.log(itemList);
-        const newList=[...itemList,{...data,id:{counter},description:""}];
-        console.log(newList);
-        setList(newList);
-        e.target[0].value = ''; // for name
-        e.target[1].value = ''; 
-        e.target[2].value='';
         
-    
+        fetch("http://localhost:5000/add", {
+          method: "POST",
+          body: JSON.stringify({
+          id: 0,
+          name: data.name,
+          developer:data.developer,
+          price: data.price,
+          description:"New item"
+          }),
+          headers: {
+          "Content-type": "application/json; charset=UTF-8"
+                   }
+        });
     }
       
       return(

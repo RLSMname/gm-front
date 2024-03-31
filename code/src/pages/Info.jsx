@@ -1,8 +1,25 @@
 
 import { useLocation } from "react-router-dom";
+import { useEffect,useState } from "react";
 function Info(){
     let {state}=useLocation();
-    const item=state.item;
+    const id = state.id;
+
+    const [item,setItem]=useState({});
+
+
+    useEffect(()=>{
+        fetch(`http://localhost:5000/games/${id}`, {
+              method: "GET",
+              headers: {
+              "Content-type": "application/json; charset=UTF-8"
+                       }
+            }).then((response)=>
+               {return response.json()}).then(
+                (data)=>setItem(data)
+            )
+                },[]);
+
     const description=item.description;
     const name=item.name;
     const developer=item.developer;
@@ -22,7 +39,6 @@ function Info(){
             </h2>
            <h2>Description:{description}</h2>
            </div>
-           <img  className="image-info"  src="./src/assets/paint.jpg" alt=""></img>
         </div>
     );
 }
