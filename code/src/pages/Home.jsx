@@ -7,8 +7,12 @@ function Home(props){
     const list=props.itemList;
     const setList=props.setList;
     const [on,setOn]=useState(true);
+    const numElem = props.numElem
+    const setNumElem = props.setNumElem
 
     function LoadMoreButton() {
+
+        //return list.length < numElem ? <button onClick={handleLoadMore}>More</button> : null
         return <button onClick={handleLoadMore}>More</button>
     }
 
@@ -38,15 +42,24 @@ function Home(props){
                              }
                   }
                 ).then((response)=>{
-                  return response.json()
-                }).then(data=>{if(Array.isArray(data))
-                  setList(data);
-                  else setOn(false); 
-                }
+                  return response.json() //mod
+                }).then(data=>
+                    {
+                        const newList = data["slice"];
+                        const newNumElem = data["all"];
+                        if(newList !== null) {
+                            setList(newList);
+
+                            setOn(true);
+                        }
+                        else setOn(false);
+                        setNumELem(newNumElem); 
+                    }
              );
         }
     return (
         <>
+        <h1>Number of elements: {list.length} from {numElem}</h1>
         <Popup 
                 trigger= {<button className="add-button"> Add </button>} 
                 modal nested>
@@ -56,7 +69,7 @@ function Home(props){
                             <div className='pop-up-content'>
                         
                                 Add an item!
-                                <FormElement itemList={list} setList={setList}>
+                                <FormElement itemList={list} setList={setList} >
                                 </FormElement>
 
                             </div>

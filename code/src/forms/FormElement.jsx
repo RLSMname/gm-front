@@ -3,8 +3,14 @@ import {useForm} from "react-hook-form"
 function FormElement(props){
       let itemList=props.itemList;
       const setList=props.setList;
+
       const {register,handleSubmit,formState: { errors },reset} = useForm();
       const [data,setData]=useState("");
+      
+      const validateData = (data) => {
+        
+      }
+      
       const onSubmit=(data) => {       
         setData(data);
         console.log(itemList);

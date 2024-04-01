@@ -7,7 +7,7 @@ import Pie from "./pages/Pie"
 import { useEffect,useState } from "react"
 function App() {
   const [listGames,setGames]=useState([[]]);
-   
+  const [numElem, setNumELem] = useState(0);
   
   useEffect(()=>{
     fetch(
@@ -15,7 +15,15 @@ function App() {
     ).then((response)=>{
       return response.json()
     }).then((data)=>{
-      setGames(data); 
+
+      const newList = data["slice"];
+      const newNumElem = data["all"];
+      setNumELem(newNumElem); 
+
+      setGames(newList); 
+
+
+
     }
     )
   },[]);
@@ -26,7 +34,7 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<Layout></Layout>}>
-        <Route index element={<Home  itemList={listGames} setList={setGames}></Home>}></Route>
+        <Route index element={<Home  itemList={listGames} setList={setGames}  numElem = {numElem} setNumELem = {setNumELem}></Home>}></Route>
         <Route path="/:id" element={<Info />} />
         <Route path="*" element={<NoPage></NoPage>}></Route>
         <Route path="/games/piechart" element={<Pie itemList={listGames}></Pie>}></Route>
