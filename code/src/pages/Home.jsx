@@ -8,7 +8,7 @@ function Home(props){
     const setList=props.setList;
     const [on,setOn]=useState(true);
     const numElem = props.numElem
-    const setNumElem = props.setNumElem
+    const setNumElem = props.setNumELem
 
     function LoadMoreButton() {
 
@@ -69,7 +69,7 @@ function Home(props){
                             <div className='pop-up-content'>
                         
                                 Add an item!
-                                <FormElement itemList={list} setList={setList} >
+                                <FormElement itemList={list} setList={setList} numElem = {numElem} setNumELem = {setNumElem} >
                                 </FormElement>
 
                             </div>
@@ -91,7 +91,7 @@ function Home(props){
             <div>
                 <Link to={{pathname: `/games/piechart`}} state={{ itemList: list  }}><button >View Piechart</button></Link>
             </div>
-         <Repo itemList={list} setList={setList} >
+         <Repo itemList={list} setList={setList} numElem = {numElem} setNumELem = {setNumElem}>
          </Repo>
          <LoadMoreButton></LoadMoreButton>
         </>

@@ -4,6 +4,9 @@ function FormElement(props){
       let itemList=props.itemList;
       const setList=props.setList;
 
+      const numElem = props.numElem
+      const setNumELem = props.setNumELem
+
       const {register,handleSubmit,formState: { errors },reset} = useForm();
       const [data,setData]=useState("");
       
@@ -28,6 +31,9 @@ function FormElement(props){
           "Content-type": "application/json; charset=UTF-8"
                    }
         });
+
+        setNumELem(numElem + 1); 
+
     }
       
       return(

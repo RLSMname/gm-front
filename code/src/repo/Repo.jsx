@@ -6,6 +6,11 @@ import FormElementEdit from "../forms/FormElementEdit";
 function Repo(props){
     const stateList=props.itemList;
     const setList=props.setList;
+
+
+    const numElem = props.numElem
+    const setNumELem = props.setNumELem
+
     function handleDelete(index){
 
         let id=stateList[index].id;
@@ -27,6 +32,8 @@ function Repo(props){
 
             }
         );
+
+        setNumELem(numElem-1)
 
     }
 
