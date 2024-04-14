@@ -41,7 +41,7 @@ function Repo(props){
     function handleEdit(index,updatedItem){
         const updatedList=[...stateList];
         updatedList[index]=updatedItem;
-        setList(updatedList);
+        
         fetch("http://localhost:5000/update", {
           method: "PATCH",
           body: JSON.stringify({
@@ -54,7 +54,25 @@ function Repo(props){
           headers: {
           "Content-type": "application/json; charset=UTF-8"
                    }
-        });
+        }).then(response => {
+            if (response.status == 400) {
+              throw new Error("Game data is not correct");
+            }
+            return response.json();
+          })
+          .then(() => {
+            
+            setList(updatedList);
+           
+          })
+          .catch(error => {
+            console.error("Error:", error.message);
+            window.alert(error.message);
+          });
+
+
+
+        
     }
 
     

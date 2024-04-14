@@ -30,9 +30,20 @@ function FormElement(props){
           headers: {
           "Content-type": "application/json; charset=UTF-8"
                    }
+        }).then(response => {
+          if (response.status == 400) {
+            throw new Error("Game data is not correct");
+          }
+          return response.json();
+        }).then(()=>{
+          setNumELem(numElem + 1); 
+          }
+        ).catch(error => {
+          console.error("Error:", error.message);
+          window.alert(error.message);
         });
 
-        setNumELem(numElem + 1); 
+       
 
     }
       
