@@ -4,11 +4,14 @@ import NoPage from "./pages/NoPage"
 import Home from "./pages/Home"
 import Info from "./pages/Info"
 import Pie from "./pages/Pie"
+import DevsPage from "./pages/DevsPage"
 import { useEffect,useState } from "react"
 function App() {
   const [listGames,setGames]=useState([[]]);
   const [numElem, setNumELem] = useState(0);
-  
+  const [listDevs, setDevs] = useState([[]]);
+  const [numElemDevs, setNumELemDevs] = useState(0);
+
   useEffect(()=>{
     fetch(
       "http://localhost:5000/games"
@@ -29,6 +32,19 @@ function App() {
   },[]);
 
   
+  useEffect(()=>{
+    fetch(
+      "http://localhost:5000/get-devs"
+    ).then((response)=>{
+      return response.json()
+    }).then((data)=>{
+      setDevs(data);
+      setNumELemDevs(data.length);
+    }
+    )
+  },[]);
+
+
   //console.log(listSupplies);
   return(
     <BrowserRouter>
@@ -38,6 +54,7 @@ function App() {
         <Route path="/:id" element={<Info />} />
         <Route path="*" element={<NoPage></NoPage>}></Route>
         <Route path="/games/piechart" element={<Pie itemList={listGames}></Pie>}></Route>
+        <Route path="/devs" element={<DevsPage itemList={listDevs} numElem={numElemDevs}  setNumELem={setNumELemDevs} setList={setDevs}></DevsPage>}></Route>
       </Route>
     </Routes>
     </BrowserRouter>

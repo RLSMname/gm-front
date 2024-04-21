@@ -34,6 +34,9 @@ function FormElement(props){
           if (response.status == 400) {
             throw new Error("Game data is not correct");
           }
+          // else if (response.status == 500){
+          //   throw new Error("Game could not be added :(((((");
+          // }
           return response.json();
         }).then(()=>{
           setNumELem(numElem + 1); 

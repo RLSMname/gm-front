@@ -109,7 +109,7 @@ function Home(props){
           
             checkServerStatus();
           
-            const interval = 10000; 
+            const interval = 1000; 
             const intervalId = setInterval(checkServerStatus, interval);
           
             return () => clearInterval(intervalId);
@@ -136,7 +136,7 @@ function Home(props){
 
     return (
         <>
-        {!isServerOnline ? <h1>Server dead lmao</h1> :
+        {!isServerOnline ? <h1>Server unaccessible at this time</h1> :
         <>
         <h1>Number of elements: {list.length} from {numElem}</h1>
         <Popup 
